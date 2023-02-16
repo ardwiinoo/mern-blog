@@ -1,12 +1,12 @@
 import React from "react";
-import { registerBg } from "../../assets";
+import { loginBg } from "../../assets";
 import { Button, Gap, Input, Link } from "../../components";
 
 function Login() {
   return (
     <section className="main-page">
       <div className="left">
-        <img src={registerBg} alt="register_image" className="bg-image" />
+        <img src={loginBg} alt="register_image" className="bg-image" />
       </div>
       <div className="right">
         <p className="title">Login</p>
