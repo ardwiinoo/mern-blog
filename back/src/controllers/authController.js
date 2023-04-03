@@ -1,0 +1,20 @@
+class authController {
+  static async register(req, res, next) {
+    const { name, email, password } = req.body;
+
+    console.log(req.body);
+
+    const result = {
+      message: "Register Success",
+      data: {
+        uid: 1,
+        name: name,
+        email: email,
+        password: password,
+      },
+    };
+    res.status(201).json(result);
+  }
+}
+
+export default authController;
