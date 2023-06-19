@@ -1,9 +1,14 @@
 import express from "express";
 import bodyParser from "body-parser";
+import dotenv from "dotenv";
+dotenv.config();
+
+// mongoose
+import mongoose from "mongoose";
 
 // routes
-import authRoutes from "./src/routes/auth.js";
-import blogRoutes from "./src/routes/blog.js";
+import authRoutes from "./src/routes/authRoutes.js";
+import blogRoutes from "./src/routes/blogRoutes.js";
 
 // init
 const app = express();
@@ -23,6 +28,20 @@ app.use((req, res, next) => {
 app.use("/v1/auth", authRoutes);
 app.use("/v1/blog", blogRoutes);
 
-app.listen(5000, () => {
-  console.log(`Server Running On Port 5000`);
+app.use((error, req, res, next) => {
+  const status = error.errorStatus || 500;
+  const message = error.message;
+  const data = error.data;
+
+  res.status(status).json({
+    message: message,
+    data: data
+  });
 });
+
+mongoose.connect(`mongodb+srv://ardwiinoo:${process.env.DB_PASSWORD}@cluster0.xlk0v7h.mongodb.net/?retryWrites=true&w=majority`)
+  .then(
+    app.listen(process.env.PORT, () => {
+      console.log(`Server Running On Port ${process.env.PORT}`);
+    })
+  ).catch(error => console.error(error))
