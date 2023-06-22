@@ -10,4 +10,6 @@ router.post("/post", [
     body('body').isLength({min: 5}).withMessage("input body tidak sesuai")
 ], blogController.createBlogPost);
 
+router.get("/posts", blogController.getAllBlogPost);
+
 export default router;
