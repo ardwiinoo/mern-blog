@@ -10,6 +10,10 @@ const BlogFormat = new Schema({
         type: String,
         required: true
     },
+    image: {
+        type: String,
+        required: true
+    },
     author: {
         type: Object,
         required: true
@@ -18,4 +22,5 @@ const BlogFormat = new Schema({
     timestamps: true
 });
 
-export default mongoose.model("Blog", BlogFormat);
+const Blog = mongoose.model("Blog", BlogFormat)
+export default Blog;
