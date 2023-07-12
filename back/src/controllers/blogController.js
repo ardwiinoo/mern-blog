@@ -37,14 +37,14 @@ class blogController {
         // insert
         await Posting.save()
             .then(result => {
-            res.status(201).json({
-                message: "Create Blog Post Success",
-                data: result
-            });
+                res.status(201).json({
+                    message: "Create Blog Post Success",
+                    data: result
+                });
             })
             .catch(err => {
-            console.error(`CreateBlogPost: ${err}`)
-            next(err);
+                console.error(`CreateBlogPost: ${err}`)
+                next(err);
             });
     }
 
@@ -54,10 +54,31 @@ class blogController {
                 res.status(200).json({
                     message: "Success fetch blog post",
                     data: result
-                })
+                });
             })
             .catch(error => {
                 next(error);
+            });
+    }
+
+    static async getBlogPostById(req, res, next) {
+        const postId = req.params.postId;
+        
+        await Blog.findById(postId)
+            .then(result => {
+                if(!result) {
+                    const error = new Error('Blog post not found');
+                    error.errorStatus = 404;
+                    throw error;
+                }
+
+                res.status(200).json({
+                    message: "Success fetch blog post by id",
+                    data: result
+                });
+            })
+            .catch(error => {
+                next(error)
             });
     }
 }
