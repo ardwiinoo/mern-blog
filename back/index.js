@@ -73,7 +73,7 @@ app.use((error, req, res, next) => {
     });
 });
 
-const uri = `mongodb+srv://ardwiinoo:${process.env.DB_PASSWORD}@cluster0.xlk0v7h.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://ardwiinoo:${process.env.DB_PASSWORD}@cluster0.xlk0v7h.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority&ssl=true`;
 
 // connect mongodb
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
