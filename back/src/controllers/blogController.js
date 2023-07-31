@@ -81,6 +81,53 @@ class blogController {
                 next(error)
             });
     }
+
+    static async updateBlogPost(req, res, next) {
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()) {
+            const err = new Error('Invalid value');
+            err.errorStatus = 400;
+            err.data = errors.array();
+            throw err;
+        }
+
+        if(!req.file) {
+            const err = new Error('Image harus diupload');
+            err.errorStatus = 422;
+            err.data = errors.array();
+            throw err;
+        }
+
+        const title = req.body.title;
+        const image = req.file.path;
+        const body  = req.body.body;
+        const postId = req.params.postId;
+
+        await Blog.findById(postId)
+            .then(post => {
+                if(!post) {
+                    const error = new Error('Blog post not found');
+                    error.errorStatus = 404;
+                    throw error;
+                }
+
+                post.title = title;
+                post.body  = body;
+                post.image = image;
+
+                return post.save();
+            })
+            .then(result => {
+                res.status(200).json({
+                    message: "Success update blog post",
+                    data: result
+                });
+            })
+            .catch(error => {
+                next(error);
+            });
+    }
 }
 
 export default blogController;
